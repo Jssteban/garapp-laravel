@@ -16,6 +16,6 @@
         </style>
     </head>
     <body class="font-sans antialiased dark:bg-black dark:text-white/50">
-        <h1>Colaboracion de ensayo</h1>
+        <h1>Ensayo de creaci de reglas</h1>
     </body>
 </html>
