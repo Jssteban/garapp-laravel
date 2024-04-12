@@ -1,0 +1,53 @@
+1.usuarios
+id ->uuid unique
+nombre ->String
+apellido-> String opcional
+numero de telefono -> int inique
+email -> String inique
+numero de cc o nit -> int  unique
+direccion -> String
+password -> String unique
+imagen de perfil -> file
+genero -> String
+
+almacenes -> de uno a muchos
+productos -> de uno a muchos
+domiciliario -> de uno a uno 
+etiquetas -> de uno a muchos
+
+2.almacenes
+id ->uuid unique
+nombre ->String
+numero de telefono -> int inique
+email -> String inique
+nit -> int  unique
+direccion -> String
+imagen de perfil -> file
+
+productos -> de uno a muchos
+domiciliario -> de uno a muchos
+usuarios -> de uno a uno
+
+3.productos
+id ->uuid unique
+nombre ->String
+referencia -> String
+imagen de perfil -> file
+descripcion -> String
+cantidad -> int
+precio -> int
+
+almacenes -> de uno a uno 
+usuario -> de uno a uno 
+
+3.domiciliarios
+licencia -> file
+cc -> file 
+soat -> file
+tecnico mecanica -> file
+tarjeta de propiedad -> file
+imagen del vehiculo -> file
+
+almacenes -> de uno a muchos
+productos -> de uno a muchos
+usuarios -> uno a uno
