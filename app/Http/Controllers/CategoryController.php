@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CategoryModel;
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; //esta linea va a conectar la base de datos
 
 class CategoryController extends Controller
 {
@@ -12,7 +12,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categorias = CategoryModel::all(); //hace peticion para traer todos los datos
-        if ($categorias->isEmpty()) { //comprueba si productos esta basio y devuelve un mensaje de error
+        if ($categorias->isEmpty()) { //comprueba si productos esta vasio y devuelve un mensaje de error
             return response()->json(['message' => 'no existe categorias'], 404);
         }
         return $categorias; //retorna todo lo que esta en el producto
@@ -23,9 +23,9 @@ class CategoryController extends Controller
         $categorias = CategoryModel::create($request->all());
         return $categorias;
     }
-
+    //trae un producto en espesifico
     public function show($id)
-    {  //trae un producto en espesifico
+    {  
         //busca un producto en especifico
         $categorias = CategoryModel::find($id); //busca por id la primera coincidencia 
         if (!$categorias) { // si no existe el producto en la base de datos devuelve un mensaje de error 
@@ -35,7 +35,7 @@ class CategoryController extends Controller
     }
 
     public function update(Request $request, $id)
-    { //actualizar uhn recurso existente en la base de datos
+    { //actualizar un recurso existente en la base de datos
         $categorias = CategoryModel::find($id); // busca por id la primera coincidencia en la base de datos
         if (!$categorias) {
             return response()->json(['message' => 'no existe producto'], 404); //manda un mensaje que la condicion no existe 
@@ -46,8 +46,8 @@ class CategoryController extends Controller
         return $categorias; //devuelve el producto con sus coincidencias guardadas
     }
 
-    public function destroy($id)
-    { //elimina la categoria
+    public function destroy($id) //elimina la categoria
+    { 
         $categorias = CategoryModel::find($id); //busca la primera coincidencia en la base de datos
         if ($categorias) { //si esta la categoria realiza lo siguiente
             $categorias->delete(); //borra la categoria eliminado

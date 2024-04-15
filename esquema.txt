@@ -1,4 +1,4 @@
-1.usuarios
+1.usuarios // realizado
 id ->uuid unique
 nombre ->String
 apellido-> String opcional
@@ -28,7 +28,7 @@ productos -> de uno a muchos
 domiciliario -> de uno a muchos
 usuarios -> de uno a uno
 
-3.productos
+3.productos // realizado
 id ->uuid unique
 nombre ->String
 referencia -> String
