@@ -15,7 +15,7 @@ productos -> de uno a muchos
 domiciliario -> de uno a uno 
 etiquetas -> de uno a muchos
 
-2.almacenes
+2.almacenes //realizado
 id ->uuid unique
 nombre ->String
 numero de telefono -> int inique

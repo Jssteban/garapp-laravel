@@ -10,14 +10,14 @@ class WarehouseController extends Controller
     public function index()
     {
         $almacen = AlmacenesModel::all(); //hace una peticion para traer todos los datos
-        if ($almacen->isEmpty()) { //comprueva si el almacen esta vacio y manda un mensaje de error
+        if ($almacen->isEmpty()) { //comprueba si el almacen esta vacio y manda un mensaje de error
             return response()->json(['messaje' => 'no existe el almacen', 404]);
         }
         return $almacen; //retorna todo lo que esta en almacen
     }
 
     public function store(Request $request)
-    { //crea un nuevo usuario en nuestra base de datos
+    { //crea un nuevo almacen en nuestra base de datos
         $almacen = AlmacenesModel::create($request->all());
         if ($request) { //si se crea el almacen manda el siguiente mensaje
             return response()->json(['messaje' => 'el almacen se a creado exitosamente', 'data' => $almacen]); //el almacen se a creado
