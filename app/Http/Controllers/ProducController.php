@@ -9,19 +9,31 @@ class ProducController extends Controller
      //lista todo los productos de nuestra base de datos
      public function index()
      {
+         $productos = ProductosModel::with('usuario')->get(); // cargamos los datos relacionados con el usuario
  
-         $productos = ProductosModel::all(); //hace peticion para traer todos los datos
-         if($productos->isEmpty()){ //comprueba si productos esta basio y devuelve un mensaje de error
-             return response()->json(['message'=>'no existe productos'], 404);
-         } 
-         return $productos; //retorna todo lo que esta en el producto
-         
+         if ($productos->isEmpty()) { //comprueba si el usuario esta vacio y manda un mensaje de error
+             return response()->json(['message' => 'la lista de productos esta vacia'], 404);
+         }
+         $productos_formateados = $productos->map(function ($producto) { // mapeo del array y verifico si cada repartidor tiene un usuario asociado
+             $productos_array = $producto->toArray();//creamos un array o formateamos a nuestra variable usuario 
+             if ($producto->usuario) { //si existe el repartido se añade la informacion a nuestro array de usuario
+                 $productos_array['usuario'] = [
+                     'id'=>$producto->usuario->id,
+                     'nombre'=>$producto->usuario->nombre,
+                 ];
+             }else{
+                 $productos_array['usuario'] = null;
+             }
+             return $productos_array; //retorna el array con todos los datos formateados
+         });
+         //$usuario = UsuariosModel::all(); // hace una peticion para traer todos los datos
+        
+         return response()->json($productos_formateados); //retorna todo lo que esta en usuario   
      }
-     public function store(Request $request) //crea un nuevo recurso en nuestra base de datos
-     {
-         $producto = ProductosModel::create($request->all());
-         return $producto;
-     }
+     public function store(Request $request){ // crea un nuevo registro en la base de datos
+        $producto = ProductosModel::create($request->all());  //utiliza los datos procesados y los datos enviados
+        return $producto;//retorna todo lo que esta en pedido
+    }
  
      public function show($id){  //trae un producto en espesifico
      //busca un producto en especifico

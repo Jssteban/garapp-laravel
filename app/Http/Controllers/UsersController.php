@@ -13,28 +13,35 @@ class UsersController extends Controller
     // lista todos los usuarios de nuestra base de datos
     public function index()
     {
-        $usuario = UsuariosModel::with('repartidor')->get(); // cargamos los datos relacionados con los repartidores
+        $usuarios = UsuariosModel::with(['repartidor', 'productos'])->get(); //agregar las tablas con las que el modelo tiene relaciones 
 
-        if ($usuario->isEmpty()) { //comprueba si el usuario esta vacio y manda un mensaje de error
-            return response()->json(['message' => 'la lista de usuarios esta vacia'], 404);
+        if ($usuarios->isEmpty()) { // si esta vacio manda un mensaje
+            return response()->json(['message' => 'La lista de usuarios está vacía'], 404);
         }
-        $usuario_formateados = $usuario->map(function ($usuarios) { // mapeo del array y verifico si cada repartidor tiene un usuario asociado
-            $usuario_array = $usuarios->toArray();//creamos un array o formateamos a nuestra variable usuario 
-            if ($usuarios->repartidor) { //si existe el repartido se añade la informacion a nuestro array de usuario
-                $usuario_array['repartidor'] = [
-                    'id'=>$usuarios->repartidor->id,
-                    'soat'=>$usuarios->repartidor->soat,
-                    'cedula'=>$usuarios->repartidor->cedula,
-                    'numero_licencia'=>$usuarios->repartidor->numero_licencia
-                ];
-            }else{
-                $usuario_array['repartidor'] = null;
-            }
-            return $usuario_array; //retorna el array con todos los datos formateados
+
+        $usuarios_formateados = $usuarios->map(function ($usuario) { //mapeamos nuestro array de usuarios
+            return [
+                'id' => $usuario->id,
+                'nombre' => $usuario->nombre,
+                'apellido' => $usuario->apellido,
+                // Agregar otros campos del usuario aquí
+                'repartidor' => $usuario->repartidor ? [
+                    'id' => $usuario->repartidor->id,
+                    'soat' => $usuario->repartidor->soat,
+                    'cedula' => $usuario->repartidor->cedula,
+                    'numero_licencia' => $usuario->repartidor->numero_licencia
+                ] : null,
+                'productos' => $usuario->productos->map(function ($producto) {
+                    return [
+                        'id' => $producto->id,
+                        'nombre' => $producto->nombre,
+                        // Agregar otros campos del producto aquí si es necesario
+                    ];
+                }),
+            ];
         });
-        //$usuario = UsuariosModel::all(); // hace una peticion para traer todos los datos
-       
-        return response()->json($usuario_formateados); //retorna todo lo que esta en usuario
+
+        return response()->json($usuarios_formateados);
     }
 
     public function store(Request $request)
@@ -56,17 +63,17 @@ class UsersController extends Controller
         if (!$usuario) { //si no existe el usuario en la base de datos manda un mensaje de error
             return  response()->json(['message' => 'no existe el usuario'], 404);
         }
-        $usuario_array = $usuario->toArray();//creamos un array o formateamos a nuestra variable usuario 
-            if ($usuario->repartidor) { //si existe el repartido se añade la informacion a nuestro array de usuario
-                $usuario_array['repartidor'] = [
-                    'id'=>$usuario->repartidor->id,
-                    'soat'=>$usuario->repartidor->soat,
-                    'cedula'=>$usuario->repartidor->cedula,
-                    'numero_licencia'=>$usuario->repartidor->numero_licencia
-                ];
-            }else{
-                $usuario_array['repartidor'] = null;
-            }
+        $usuario_array = $usuario->toArray(); //creamos un array o formateamos a nuestra variable usuario 
+        if ($usuario->repartidor) { //si existe el repartido se añade la informacion a nuestro array de usuario
+            $usuario_array['repartidor'] = [
+                'id' => $usuario->repartidor->id,
+                'soat' => $usuario->repartidor->soat,
+                'cedula' => $usuario->repartidor->cedula,
+                'numero_licencia' => $usuario->repartidor->numero_licencia
+            ];
+        } else {
+            $usuario_array['repartidor'] = null;
+        }
         return $usuario; //devuelve el usuario que coincida con la base de datos
 
 

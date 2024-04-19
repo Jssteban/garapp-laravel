@@ -21,9 +21,14 @@ return new class extends Migration
             $table->integer('precio');
             $table->unsignedBigInteger('usuario_id');
             $table->timestamps();
-            //definicion de la clave foranea
-            $table->foreign('usuario_id')->references('id')->on('usuarios')->onDelete('cascade');
 
+            // Definición de la clave foránea con restricción de clave foránea diferida
+            $table->foreign('usuario_id')
+                  ->references('id')
+                  ->on('usuarios')
+                  ->onDelete('cascade');
+                 /* ->constrained()
+                  ->onUpdate('cascade');*/
         });
     }
 

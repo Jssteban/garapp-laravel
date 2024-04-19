@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('almacenes', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->integer('numero de telefono');
+            $table->integer('numero_de_telefono');
             $table->string('email');
             $table->integer('nit');
             $table->string('direccion');

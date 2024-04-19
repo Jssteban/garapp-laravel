@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('apellido');
-            $table->integer('numero de telefono');
+            $table->integer('numero_de_telefono');
             $table->string('email');
-            $table->integer('numero de cedula');
+            $table->integer('numero_de_cedula');
             $table->string('direccion');
             $table->string('password');
             $table->string('url_imagen');
