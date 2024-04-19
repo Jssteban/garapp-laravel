@@ -19,7 +19,10 @@ return new class extends Migration
             $table->text('descripcion');
             $table->integer('cantidad');
             $table->integer('precio');
+            $table->unsignedBigInteger('usuario_id');
             $table->timestamps();
+            //definicion de la clave foranea
+            $table->foreign('usuario_id')->references('id')->on('usuarios')->onDelete('cascade');
 
         });
     }

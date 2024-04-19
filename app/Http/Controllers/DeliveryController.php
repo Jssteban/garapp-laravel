@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 use App\Models\RepartidorModel;
+use App\Models\UsuariosModel;
 use Illuminate\Http\Request;
+
+use function Pest\Laravel\json;
 
 class DeliveryController extends Controller
 {
@@ -14,8 +17,20 @@ class DeliveryController extends Controller
         return $repatidor; //retorna todo lo que contenga repartidor
     }
     public function store(Request $request){ //crea un nuevo registro en la base de datos
-        $repatidor = RepartidorModel::create($request->all()); // utiliza los datos enviados y los datos procesados
-        return $repatidor; // retorna todo lo que contenga repartidor
+        $usuario_id = $request->input('usuario_id');//crea una variabel y busca por la reques a usuario_id en el cuerpo de la solicitud
+        $usuarios = UsuariosModel::find(intval($usuario_id));//se busca en el modelo Usuario para ver si existe
+        if(! $usuarios){
+            return response()->json(['message'=>'usuario no encontrado'], 404);
+        }
+        if($usuarios->repatidor){ // si hay un repartidor dentro de usuarios manda el siguiente mensaje
+          return response()->json(['message'=>'este usuario ya tiene un repartidor'], 400);
+        }
+        $repatidor = new RepartidorModel(); // utiliza los datos enviados y los datos procesados
+        $repatidor->fill($request->all()); //captar todos los datos que venga de la solicitud
+        $repatidor->usuario_id = $usuarios->id; // conectar la base de datos mediante el id y grabarlo 
+        $repatidor->save(); //guarda el usuario
+        
+        return response()->json($repatidor); // retorna todo lo que contenga repartidor
     }
 
     public function show($id){
