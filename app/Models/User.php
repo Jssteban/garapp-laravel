@@ -44,4 +44,11 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function delivery(){
+        return $this->hasOne(DeliveryModel::class, 'usuario_id');
+    }
+
+    public function productos(){
+        return $this->hasMany(ProductModel::class, 'usuario_id');
+    }
 }

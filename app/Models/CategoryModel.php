@@ -9,7 +9,7 @@ class CategoryModel extends Model
 {
     use HasFactory;
     
-    protected $table = 'categorias';// de esta manera se crea el modelo con la tabla en la base de datos
-    protected $fillable = ['nombre','url_imagen','descripcion'];// poner los campos que se van a rellenar
+    protected $table = 'category';// de esta manera se crea el modelo con la tabla en la base de datos
+    protected $fillable = ['name','url_img','description'];// poner los campos que se van a rellenar
 
 }
